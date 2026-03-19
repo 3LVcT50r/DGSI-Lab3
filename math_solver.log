@@ -1,0 +1,39 @@
+2026-03-16 17:20:49,764 INFO HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 404 Not Found"
+2026-03-16 17:21:31,674 INFO HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 404 Not Found"
+2026-03-16 17:27:27,899 INFO HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-03-16 17:27:27,901 INFO Retrying request to /chat/completions in 0.492456 seconds
+2026-03-16 17:27:30,262 INFO HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-03-16 17:27:30,264 INFO Retrying request to /chat/completions in 0.782504 seconds
+2026-03-16 17:27:31,958 INFO HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-03-19 17:13:38,549 INFO HTTP Request: POST https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 404 Not Found"
+2026-03-19 17:14:05,141 INFO HTTP Request: POST https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-19 17:14:06,380 INFO HTTP Request: POST https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-19 17:14:06,398 INFO === interaction ===
+2026-03-19 17:14:06,398 INFO User input: 2+2
+2026-03-19 17:14:06,398 INFO API response: {"id": "chatcmpl-c6834ccb-403f-96a3-8be0-9862242630c4", "model": "qwen3.5-122b-a10b", "finish_reason": "tool_calls", "message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_46b67df9ccd64e44b5ef15d9", "function": {"name": "evaluate", "arguments": "{\"expression\": \"2+2\"}"}}]}}
+2026-03-19 17:14:06,398 INFO Tool evaluate returned 4
+2026-03-19 17:14:06,398 INFO ===================
+2026-03-19 17:14:42,336 INFO HTTP Request: POST https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-19 17:14:43,927 INFO HTTP Request: POST https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-19 17:14:43,942 INFO === interaction ===
+2026-03-19 17:14:43,942 INFO User input: Quiero que me uses la tool de dividir usando 2/0
+2026-03-19 17:14:43,942 INFO API response: {"id": "chatcmpl-defa110f-1b8d-9416-8fd4-04775677d647", "model": "qwen3.5-122b-a10b", "finish_reason": "tool_calls", "message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_27367801c1fa4945a9ec9aaf", "function": {"name": "evaluate", "arguments": "{\"expression\": \"2/0\"}"}}]}}
+2026-03-19 17:14:43,942 INFO Tool evaluate returned Error evaluating expression: division by zero
+2026-03-19 17:14:43,942 INFO ===================
+2026-03-19 17:16:53,148 INFO HTTP Request: POST https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-19 17:16:53,182 INFO === interaction ===
+2026-03-19 17:16:53,182 INFO User input: Quiero que me calcules la integral de 1/2+x^2
+2026-03-19 17:16:53,182 INFO API response: {"id": "chatcmpl-102fe0ab-bf47-9530-b75b-03110f6fa199", "model": "qwen3.5-122b-a10b", "finish_reason": "stop", "message": {"role": "assistant", "content": "Lo siento, pero no tengo una herramienta disponible para calcular integrales. Las herramientas que tengo disponibles son para:\n\n- Evaluar expresiones num\u00e9ricas\n- Resolver ecuaciones lineales y cuadr\u00e1ticas\n- Encontrar ra\u00edces de polinomios cuadr\u00e1ticos\n- Factorizar expresiones algebraicas\n- Encontrar v\u00e9rtices de par\u00e1bolas\n- Graficar funciones\n\nSin embargo, puedo explicarte c\u00f3mo calcular esta integral manualmente:\n\nLa integral de $\\frac{1}{2} + x^2$ es:\n\n$$\\int \\left(\\frac{1}{2} + x^2\\right) dx = \\frac{1}{2}x + \\frac{x^3}{3} + C$$\n\nDonde $C$ es la constante de integraci\u00f3n.\n\n\u00bfTe gustar\u00eda que te explique los pasos detalladamente o prefieres que use alguna de las otras herramientas disponibles?", "tool_calls": null}}
+2026-03-19 17:16:53,183 INFO ===================
+2026-03-19 17:17:39,333 INFO HTTP Request: POST https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-19 17:17:39,383 INFO === interaction ===
+2026-03-19 17:17:39,383 INFO User input: Calculame a+2
+2026-03-19 17:17:39,384 INFO API response: {"id": "chatcmpl-ceb3426a-3b2b-96a0-84e4-3003b143a537", "model": "qwen3.5-122b-a10b", "finish_reason": "stop", "message": {"role": "assistant", "content": "No puedo calcular \"a+2\" directamente porque **a** es una variable desconocida. Para poder evaluar esta expresi\u00f3n, necesitar\u00eda saber el valor num\u00e9rico de **a**.\n\nPor ejemplo:\n- Si a = 3, entonces a + 2 = 5\n- Si a = 10, entonces a + 2 = 12\n\n\u00bfTienes alg\u00fan valor espec\u00edfico para **a**? \u00bfO quiz\u00e1s quer\u00edas resolver una ecuaci\u00f3n como \"a + 2 = 10\"? Si me das m\u00e1s informaci\u00f3n, puedo ayudarte mejor usando las herramientas disponibles.", "tool_calls": null}}
+2026-03-19 17:17:39,384 INFO ===================
+2026-03-19 17:18:00,320 INFO HTTP Request: POST https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-19 17:18:02,675 INFO HTTP Request: POST https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-19 17:18:02,719 INFO === interaction ===
+2026-03-19 17:18:02,719 INFO User input: Usame la tool de sumar haciendo a+2
+2026-03-19 17:18:02,719 INFO API response: {"id": "chatcmpl-5d184c77-9583-9945-8eff-a64fc185d630", "model": "qwen3.5-122b-a10b", "finish_reason": "tool_calls", "message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_91ef9344923e4486b894f647", "function": {"name": "evaluate", "arguments": "{\"expression\": \"a+2\"}"}}]}}
+2026-03-19 17:18:02,720 INFO Tool evaluate returned Error evaluating expression: name 'a' is not defined
+2026-03-19 17:18:02,720 INFO ===================
