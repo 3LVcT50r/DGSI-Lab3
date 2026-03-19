@@ -4,6 +4,8 @@ import sqlite3
 import subprocess
 from dotenv import load_dotenv
 from openai import OpenAI
+from rich.console import Console
+from rich.panel import Panel
 
 # load env vars
 load_dotenv()
@@ -18,7 +20,6 @@ def tool_wget(url, flags="-q -O -"):
     cmd = f"wget {flags} {url}"
     print(f"The LLM wants to run: {cmd}")
     answer = input("Allow? (y/n): ").strip().lower()
-    print(answer)
     if answer not in ("y", "yes"):
         return "USER DENIED: command was not executed."
 
@@ -56,6 +57,22 @@ dispatch = {
     "execute_sql": tool_execute_sql,
 }
 
+console = Console()
+
+def create_message_panel(role: str, content: str) -> Panel:
+    styles = {
+        "user": ("bright_white on blue", "blue", "👤 User"),
+        "assistant": ("bright_white on dark_green", "green", "🤖 Assistant"),
+        "tool": ("black on yellow", "yellow", "🧪 Tool"),
+    }
+    text_style, border_color, title = styles.get(role, ("bright_white on grey23", "white", role))
+    return Panel(content, title=title, border_style=border_color, padding=(1, 1))
+
+
+def show_context_stack(messages: list) -> Panel:
+    content = "\n".join([f"{i+1}. {m['role']}: {m.get('content','<tool call>')[:120]}" for i, m in enumerate(messages)])
+    return Panel(content, title=f"Conversation ({len(messages)} entries)", border_style="bright_magenta", padding=(1, 1))
+
 
 def run_loop(client, messages, tools):
     while True:
@@ -66,10 +83,12 @@ def run_loop(client, messages, tools):
         )
 
         message = response.choices[0].message
+        console.print(create_message_panel("assistant", message.content or "(no assistant text)"))
+
         if not getattr(message, "tool_calls", None):
-            print("\n=== Final Assistant Response ===")
-            print(message.content)
-            break
+            messages.append({"role": "assistant", "content": message.content})
+            console.print(Panel("Final assistant response (no tools requested)", border_style="green"))
+            return
 
         # append assistant message along with tool calls
         messages.append({
@@ -92,10 +111,12 @@ def run_loop(client, messages, tools):
         for tc in message.tool_calls:
             name = tc.function.name
             args = json.loads(tc.function.arguments)
+            console.print(create_message_panel("tool", f"Calling {name} with {json.dumps(args)}"))
             if name not in dispatch:
                 result = f"ERROR: No dispatch function configured for {name}"
             else:
                 result = dispatch[name](**args)
+            console.print(create_message_panel("tool", f"Result: {result}"))
 
             messages.append({
                 "role": "tool",
@@ -103,6 +124,9 @@ def run_loop(client, messages, tools):
                 "name": name,
                 "content": result,
             })
+
+        console.print(show_context_stack(messages))
+
 
 
 
@@ -153,15 +177,16 @@ def main():
     system_prompt = "You are a tool-enabled assistant. Use wget and execute_sql as needed. Please, only answer with a message without tool usage if you think the task is complete, do not ask for confirmation."
     messages = [{"role": "system", "content": system_prompt}]
 
-    # simple first user prompt
-    print("Enter your instruction for the agent (blank to quit):")
-    user_prompt = input().strip()
-    if not user_prompt:
-        print("Exiting")
-        return
+    while True:
+        print("Enter your instruction for the agent (blank to quit):")
+        user_prompt = input().strip()
+        if not user_prompt:
+            print("Exiting")
+            return
 
-    messages.append({"role": "user", "content": user_prompt})
-    run_loop(client, messages, tools)
+        messages.append({"role": "user", "content": user_prompt})
+        console.print(create_message_panel("user", user_prompt))
+        run_loop(client, messages, tools)
 
 
 if __name__ == "__main__":
