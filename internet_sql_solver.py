@@ -17,9 +17,10 @@ def tool_wget(url, flags="-q -O -"):
     """Fetch content from the web with an explicit user intervention step."""
     cmd = f"wget {flags} {url}"
     print(f"The LLM wants to run: {cmd}")
-    # answer = input("Allow? (y/n): ").strip().lower()
-    # if answer not in ("y", "yes"):
-    #     return "USER DENIED: command was not executed."
+    answer = input("Allow? (y/n): ").strip().lower()
+    print(answer)
+    if answer not in ("y", "yes"):
+        return "USER DENIED: command was not executed."
 
     try:
         # run wget command and capture output
